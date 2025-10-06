@@ -4,7 +4,7 @@
   "description": "Belajar NodeJS RESTful API",
   "main": "src/main.js",
   "scripts": {
-    "vercel-build": "prisma generate && vercel build",
+    "vercel-build": "prisma generate",
     "test": "jest -i"
   },
   "jest": {
