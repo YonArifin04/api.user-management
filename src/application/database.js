@@ -1,39 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 import { logger } from "./logging.js";
 
-export const prismaClient = new PrismaClient({
-  log: [
-    {
-      emit: "event",
-      level: "query",
-    },
-    {
-      emit: "event",
-      level: "error",
-    },
-    {
-      emit: "event",
-      level: "info",
-    },
-    {
-      emit: "event",
-      level: "warn",
-    },
-  ],
-});
+// Prevent multiple PrismaClient instances in development or on Vercel
+const globalForPrisma = globalThis;
 
-prismaClient.$on("error", (e) => {
-  logger.error(e);
-});
+if (!globalForPrisma.prismaClient) {
+  globalForPrisma.prismaClient = new PrismaClient({
+    log: [
+      { emit: "event", level: "query" },
+      { emit: "event", level: "error" },
+      { emit: "event", level: "info" },
+      { emit: "event", level: "warn" },
+    ],
+  });
 
-prismaClient.$on("warn", (e) => {
-  logger.warn(e);
-});
+  const prisma = globalForPrisma.prismaClient;
 
-prismaClient.$on("info", (e) => {
-  logger.info(e);
-});
+  prisma.$on("error", (e) => logger.error(e));
+  prisma.$on("warn", (e) => logger.warn(e));
+  prisma.$on("info", (e) => logger.info(e));
+  prisma.$on("query", (e) => logger.info(e));
+}
 
-prismaClient.$on("query", (e) => {
-  logger.info(e);
-});
+export const prismaClient = globalForPrisma.prismaClient;
