@@ -1,18 +1,13 @@
 {
-  "version": 2,
   "functions": {
-    "api/index.js": {
+    "api/*.js": {
       "runtime": "nodejs18.x"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
+      "source": "/(.*)",
+      "destination": "/api"
     }
-  ],
-  "env": {
-    "DATABASE_URL": "@database_url",
-    "DIRECT_URL": "@direct_url"
-  }
+  ]
 }
