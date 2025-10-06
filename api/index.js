@@ -1,4 +1,4 @@
-import { web } from "../src/application/web.js";
+import app from "../src/application/web.js";
+import serverless from "serverless-http";
 
-// Export the Express app for Vercel
-export default web;
+export const handler = serverless(app);
