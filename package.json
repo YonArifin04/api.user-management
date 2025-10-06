@@ -4,6 +4,7 @@
   "description": "Belajar NodeJS RESTful API",
   "main": "src/main.js",
   "scripts": {
+    "vercel-build": "prisma generate && vercel build",
     "test": "jest -i"
   },
   "jest": {
@@ -22,7 +23,8 @@
     "postgres": "^3.4.7",
     "uuid": "^9.0.0",
     "winston": "^3.9.0",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "prisma": "^4.15.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.5",
